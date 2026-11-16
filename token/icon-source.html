@@ -1,0 +1,59 @@
+<!doctype html>
+<!-- Source of the SVO token icon: Solomon's head with the LED mouth lit, on the brand navy.
+     Render: open in Chrome at 1024x1024 and screenshot (see README). Add ?round for the circle-cropped version. -->
+<html><head><meta charset="utf-8"><title>SVO token icon</title>
+<style>
+  html, body { margin: 0; background: transparent; }
+  .icon { position: relative; width: 1024px; height: 1024px; overflow: hidden;
+    background: radial-gradient(ellipse 78% 70% at 50% 44%, #1b4697 0%, #0c2764 48%, #04153f 100%); }
+  .round .icon { border-radius: 50%; }
+  .halo { position: absolute; left: 50%; top: 55%; width: 100%; aspect-ratio: 1; transform: translate(-50%, -50%); border-radius: 50%;
+    background: radial-gradient(circle, rgba(95,216,255,0.55) 0%, rgba(31,111,235,0.22) 38%, rgba(31,111,235,0) 68%); opacity: 0.75; filter: blur(24px); }
+  /* The head is 80% of the square and centred, so the antenna and ears stay inside a circular mask. */
+  .head { position: absolute; left: 10%; top: 10.5%; width: 80%; aspect-ratio: 1; }
+  .head img { position: absolute; inset: 0; width: 100%; height: 100%; }
+  .mouth { position: absolute; left: 14%; top: 61.6%; width: 74%; height: 24.6%; }
+  .mouth canvas { position: absolute; inset: 0; width: 100%; height: 100%; }
+  .mouth .glow { filter: blur(17px) saturate(1.3); opacity: 0.9; }
+</style></head>
+<body>
+<div class="icon"><div class="halo"></div>
+  <div class="head"><img src="solomon-head.png" alt=""><div class="mouth"><canvas class="glow"></canvas><canvas class="main"></canvas></div></div>
+</div>
+<script>
+  if (location.search.includes('round')) document.body.classList.add('round');
+  // One still frame of the live mouth (components/rebrand/Mouth.tsx on sovrn.one): LED columns mirrored on a centre rule.
+  const main = document.querySelector('.main'), glow = document.querySelector('.glow');
+  const r = main.getBoundingClientRect(), w = Math.round(r.width), h = Math.round(r.height), dpr = 2;
+  for (const c of [main, glow]) { c.width = w * dpr; c.height = h * dpr; }
+  const m = main.getContext('2d'), g = glow.getContext('2d');
+  m.scale(dpr, dpr); g.scale(dpr, dpr);
+  const N = 52, half = N / 2, frac = v => v - Math.floor(v);
+  const jitter = Array.from({ length: N }, (_, i) => 0.62 + 0.38 * frac(Math.sin(i * 12.9898) * 43758.5453));
+  // A calm spoken shape: strongest in the middle, a second swell either side, quiet at the rim.
+  const amp = Array.from({ length: N }, (_, i) => {
+    const d = Math.abs(i + 0.5 - half) / half;
+    return Math.min(1, (0.16 + 0.62 * Math.exp(-Math.pow(d * 2.3, 2)) + 0.26 * Math.exp(-Math.pow((d - 0.52) * 5, 2))) * jitter[i]);
+  });
+  const cy = h * 0.5, pitch = w / N, colW = Math.max(1.5, pitch * 0.42), seg = Math.max(2, w / 150), gap = seg * 0.55;
+  const rule = m.createLinearGradient(0, 0, w, 0);
+  rule.addColorStop(0, 'rgba(95,216,255,0)'); rule.addColorStop(0.12, 'rgba(170,240,255,0.95)'); rule.addColorStop(0.5, 'rgba(240,252,255,1)');
+  rule.addColorStop(0.88, 'rgba(170,240,255,0.95)'); rule.addColorStop(1, 'rgba(95,216,255,0)');
+  m.fillStyle = rule; m.fillRect(0, cy - 1.5, w, 3);
+  g.fillStyle = 'rgba(47,170,255,0.9)'; g.fillRect(w * 0.06, cy - 4, w * 0.88, 8);
+  for (let i = 0; i < N; i++) {
+    const d = Math.abs(i + 0.5 - half) / half;
+    const headroom = Math.sqrt(Math.max(0, 1 - Math.pow(d / 1.02, 2))) * (h * 0.5 - seg);
+    const len = amp[i] * headroom;
+    if (len < seg * 0.6) continue;
+    const x = i * pitch + (pitch - colW) / 2;
+    g.fillStyle = 'rgba(47,170,255,0.85)'; g.fillRect(x - colW * 0.4, cy - len, colW * 1.8, len * 2);
+    for (let y = 0; y + seg <= len; y += seg + gap) {
+      const f = y / headroom, a = 1 - Math.pow(f, 1.6) * 0.75;
+      m.fillStyle = f < 0.12 ? `rgba(236,251,255,${a})` : f < 0.45 ? `rgba(120,224,255,${a})` : `rgba(64,160,255,${a})`;
+      m.beginPath(); m.roundRect(x, cy - y - seg, colW, seg, colW / 2); m.fill();
+      m.beginPath(); m.roundRect(x, cy + y, colW, seg, colW / 2); m.fill();
+    }
+  }
+</script>
+</body></html>
