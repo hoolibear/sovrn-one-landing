@@ -4,7 +4,8 @@ A static, single-file copy of the top section of [sovrn.one](https://sovrn.one):
 
 - `index.html`: the whole page, styles inline, no build step and no JavaScript.
 - `banner.jpg`: the hero background.
-- `icon.png`, `apple-icon.png`: favicons.
+- `icon.png`: the SVO token icon (512 px; the same picture as `token/svo-icon-512.png`), also the page's favicon.
+- `apple-icon.png`: the home-screen icon.
 
 The buttons link to the live site:
 
