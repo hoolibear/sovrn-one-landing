@@ -20,7 +20,7 @@ Fonts (Audiowide, Rubik) load from Google Fonts. Light and dark follow the visit
 ## Token icon
 
 `token/` holds the SVO token icon: Solomon's head with the LED mouth lit, as on the Talk to Solomon page, on a white
-disc with a black border, on a black square (`#000`, the page background of explorer.imd.fun).
+disc with a blue border (`#1f6feb`, the brand blue), on a black square (`#000`, the page background of explorer.imd.fun).
 
 | File | Use |
 | --- | --- |
@@ -28,7 +28,7 @@ disc with a black border, on a black square (`#000`, the page background of expl
 | `solomon-head.png` | The head alone, transparent background, 771 px. |
 | `icon-source.html` | What the icon is rendered from. |
 
-Measurements at 1024 px: the disc is 920 px across (52 px of black on every side, its outer 12 px a black border), and
+Measurements at 1024 px: the disc is 920 px across (52 px of black on every side, its outer 20 px the blue border), and
 the head's visible pixels are centred on the square's centre, 130 px from the left and right edges and 139 px from the
 top and bottom.
 
