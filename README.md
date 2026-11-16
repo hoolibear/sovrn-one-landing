@@ -19,18 +19,21 @@ Fonts (Audiowide, Rubik) load from Google Fonts. Light and dark follow the visit
 
 ## Token icon
 
-`token/` holds the SVO token icon: Solomon's head with the LED mouth lit, as on the Talk to Solomon page, on the brand navy.
+`token/` holds the SVO token icon: Solomon's head with the LED mouth lit, as on the Talk to Solomon page, on a white
+disc with a black border, on a black square (`#000`, the page background of explorer.imd.fun).
 
 | File | Use |
 | --- | --- |
-| `svo-icon-1024.png`, `-512`, `-256`, `-128` | Square, full-bleed background. For token lists and explorers that crop to a circle themselves. The head sits inside the circle, so nothing is cut off. |
-| `svo-icon-round-1024.png`, `-512`, `-256`, `-128` | Already cropped to a circle, transparent corners. |
+| `svo-icon-1024.png`, `-512`, `-256`, `-128` | The icon. Square; the disc is centred in it and the head is centred in the disc. |
 | `solomon-head.png` | The head alone, transparent background, 771 px. |
-| `icon-source.html` | What the icons are rendered from. |
+| `icon-source.html` | What the icon is rendered from. |
+
+Measurements at 1024 px: the disc is 920 px across (52 px of black on every side, its outer 12 px a black border), and
+the head's visible pixels are centred on the square's centre, 130 px from the left and right edges and 139 px from the
+top and bottom.
 
 To render again, with Chrome:
 
 ```sh
 chrome --headless=new --force-device-scale-factor=1 --window-size=1024,1024 --screenshot=svo-icon-1024.png token/icon-source.html
-chrome --headless=new --force-device-scale-factor=1 --window-size=1024,1024 --default-background-color=00000000 --screenshot=svo-icon-round-1024.png "token/icon-source.html?round"
 ```

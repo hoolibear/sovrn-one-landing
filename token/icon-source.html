@@ -1,27 +1,25 @@
 <!doctype html>
-<!-- Source of the SVO token icon: Solomon's head with the LED mouth lit, on the brand navy.
-     Render: open in Chrome at 1024x1024 and screenshot (see README). Add ?round for the circle-cropped version. -->
+<!-- Source of the SVO token icon: Solomon's head with the LED mouth lit, on a white disc with a black border,
+     on the black of explorer.imd.fun (#000). Render: Chrome at 1024x1024, screenshot (see README).
+     Centring: the head's visible pixels span x 3..767 and y 21..767 of the 771 px image (centre 385, 394); the image is
+     placed so that point is the centre of the square, and the disc shares that centre. -->
 <html><head><meta charset="utf-8"><title>SVO token icon</title>
 <style>
-  html, body { margin: 0; background: transparent; }
-  .icon { position: relative; width: 1024px; height: 1024px; overflow: hidden;
-    background: radial-gradient(ellipse 78% 70% at 50% 44%, #1b4697 0%, #0c2764 48%, #04153f 100%); }
-  .round .icon { border-radius: 50%; }
-  .halo { position: absolute; left: 50%; top: 55%; width: 100%; aspect-ratio: 1; transform: translate(-50%, -50%); border-radius: 50%;
-    background: radial-gradient(circle, rgba(95,216,255,0.55) 0%, rgba(31,111,235,0.22) 38%, rgba(31,111,235,0) 68%); opacity: 0.75; filter: blur(24px); }
-  /* The head is 80% of the square and centred, so the antenna and ears stay inside a circular mask. */
-  .head { position: absolute; left: 10%; top: 10.5%; width: 80%; aspect-ratio: 1; }
+  html, body { margin: 0; background: #000; }
+  .icon { position: relative; width: 1024px; height: 1024px; overflow: hidden; background: #000; }
+  /* White disc, 920 px across with a 12 px black border, centred: 52 px of black all round. */
+  .disc { position: absolute; left: 52px; top: 52px; width: 920px; height: 920px; box-sizing: border-box; border-radius: 50%; background: #fff; border: 12px solid #000; }
+  .head { position: absolute; left: 127px; top: 118px; width: 771px; height: 771px; }
   .head img { position: absolute; inset: 0; width: 100%; height: 100%; }
   .mouth { position: absolute; left: 14%; top: 61.6%; width: 74%; height: 24.6%; }
   .mouth canvas { position: absolute; inset: 0; width: 100%; height: 100%; }
   .mouth .glow { filter: blur(17px) saturate(1.3); opacity: 0.9; }
 </style></head>
 <body>
-<div class="icon"><div class="halo"></div>
+<div class="icon"><div class="disc"></div>
   <div class="head"><img src="solomon-head.png" alt=""><div class="mouth"><canvas class="glow"></canvas><canvas class="main"></canvas></div></div>
 </div>
 <script>
-  if (location.search.includes('round')) document.body.classList.add('round');
   // One still frame of the live mouth (components/rebrand/Mouth.tsx on sovrn.one): LED columns mirrored on a centre rule.
   const main = document.querySelector('.main'), glow = document.querySelector('.glow');
   const r = main.getBoundingClientRect(), w = Math.round(r.width), h = Math.round(r.height), dpr = 2;
